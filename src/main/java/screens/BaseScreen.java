@@ -28,4 +28,6 @@ public class BaseScreen {
     public boolean isShouldHave(AndroidElement element, String text, int time){
         return new WebDriverWait(driver, time).until(ExpectedConditions.textToBePresentInElement(element, text));
     }
+
+    
 }
