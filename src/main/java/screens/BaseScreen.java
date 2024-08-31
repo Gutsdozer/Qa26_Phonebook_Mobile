@@ -4,9 +4,13 @@ import config.AppiumConfig;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+
+import java.util.List;
 
 public class BaseScreen {
 
@@ -39,6 +43,27 @@ public class BaseScreen {
 
     public void shold(AndroidElement element, int time){
         new WebDriverWait(driver, time).until(ExpectedConditions.visibilityOf(element));
+    }
+
+    public void checkAlertText(String text){
+        Alert alert = new WebDriverWait(driver,10)
+                .until(ExpectedConditions.alertIsPresent());
+        driver.switchTo().alert();
+        Assert.assertTrue(alert.getText().contains(text));
+        alert.accept();
+    }
+
+    public boolean isElementDisplayed(AndroidElement element){
+        try{
+            shold(element,5);
+            return element.isDisplayed();
+        }catch (IllegalAccessError error){
+            return false;
+        }
+    }
+
+    public boolean isElementPresentInList(List<AndroidElement> list){
+        return list.size()>0;
     }
 
     
